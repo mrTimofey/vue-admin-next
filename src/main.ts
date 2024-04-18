@@ -18,10 +18,6 @@ import FormFields from './modules/form/fields';
 // ensure that every module is bundled
 import.meta.glob(['./modules/**.ts', '!**.test.ts', '!**.spec.ts']);
 
-export interface IVueAdminConfig {
-	lang: string;
-}
-
 export const enum HistoryMode {
 	/**
 	 * The application fully controls URL to persist its state.
