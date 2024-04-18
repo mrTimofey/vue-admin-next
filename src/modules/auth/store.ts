@@ -15,7 +15,11 @@ interface IState {
 }
 
 export default class AuthStore extends ReactiveStore<IState> {
-	constructor(protected provider = inject(AuthProvider), protected trans = inject(Translator), protected persistentStorage = inject(KeyValueStorage)) {
+	constructor(
+		protected provider = inject(AuthProvider),
+		protected trans = inject(Translator),
+		protected persistentStorage = inject(KeyValueStorage),
+	) {
 		super();
 		this.onTokensUpdate = this.onTokensUpdate.bind(this);
 	}

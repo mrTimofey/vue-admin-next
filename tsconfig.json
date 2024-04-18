@@ -12,15 +12,15 @@
       "esnext",
       "dom"
     ],
-    "experimentalDecorators": true,
     "skipLibCheck": true,
     "types": [
       "vite/client"
-    ]
+    ],
+    "outDir": "dist"
   },
   "vueCompilerOptions": {
     "plugins": [
-      "@volar/vue-language-plugin-pug"
+      "@vue/language-plugin-pug"
     ]
   },
   "include": [

@@ -2,18 +2,18 @@
 .bg-light.d-flex(v-if="auth.isAuthorized")
 	aside.bg-white.shadow-sm
 		.text-center.fs-5.fw-semibold.p-3.border-bottom
-			router-link.text-decoration-none.link-dark(:to="appHomeLink") {{ appTitle }}
+			router-link.text-decoration-none.link-dark(:to="config.appHomeLink") {{ config.appTitle }}
 		.py-2.ps-3.pe-2.border-bottom
 			.d-flex.align-items-center
 				.fw-bold.flex-grow-1 {{ auth.userName || 'Admin' }}
 				button.btn.btn-sm.btn-primary(@click.prevent="auth.logout()" :title="trans('logout')")
 					i.fas.fa-right-from-bracket
-		main-nav(:items="mainNavItems")
+		main-nav(:items="config.mainNav")
 	main.p-3.flex-grow-1
 		router-view
 .auth-container.bg-dark.bg-gradient(v-else)
 	.auth-form.bg-light.shadow-3.rounded
-		.p-3.fs-5.fw-semibold.text-center.border-bottom {{ appTitle }}
+		.p-3.fs-5.fw-semibold.text-center.border-bottom {{ config.appTitle }}
 		.p-4
 			auth-form
 notification-root
@@ -23,7 +23,7 @@ component(v-for="comp in rootComponents" :is="comp")
 
 <script lang="ts">
 import type { PropType, Component, ExtractPropTypes } from 'vue';
-import { defineComponent, watchEffect, computed } from 'vue';
+import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import { get, useTranslator } from './modules/vue-composition-utils';
 import AppConfig from './modules/app-config';
@@ -56,20 +56,15 @@ export default defineComponent({
 		const config = get(AppConfig);
 		const meta = get(Meta);
 		const auth = get(AuthStore);
-		watchEffect(() => {
-			config.applyToDom();
-		});
 		useRouter().beforeEach((to, from, next) => {
 			meta.pageTitle = '';
 			next();
 		});
 		auth.loadFromStorage();
 		return {
-			auth,
-			appTitle: computed(() => config.appTitle),
-			appHomeLink: computed(() => config.appHomeLink),
-			mainNavItems: computed(() => config.mainNav),
 			...useTranslator(),
+			auth,
+			config,
 		};
 	},
 });

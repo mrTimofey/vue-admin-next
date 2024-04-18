@@ -50,12 +50,16 @@ export default defineComponent({
 				}
 			},
 			onBlur() {
-				if (Number.isNaN(props.modelValue) || props.modelValue === null) {
+				if (props.modelValue === null) {
 					return;
 				}
-				if (props.modelValue < props.min) {
+				const numeric = Number(props.modelValue);
+				if (Number.isNaN(numeric)) {
+					return;
+				}
+				if (numeric < props.min) {
 					emit('update:modelValue', props.min);
-				} else if (props.modelValue > props.max) {
+				} else if (numeric > props.max) {
 					emit('update:modelValue', props.max);
 				}
 			},

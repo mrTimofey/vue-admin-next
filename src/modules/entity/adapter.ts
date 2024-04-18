@@ -25,7 +25,10 @@ export interface IItemData {
 }
 
 export class ValidationError extends TypeError {
-	constructor(public fieldErrors: Record<string, string[]>, message = 'Validation error') {
+	constructor(
+		public fieldErrors: Record<string, string[]>,
+		message = 'Validation error',
+	) {
 		super(message);
 	}
 

@@ -26,16 +26,13 @@
   "stylusSupremacy.alwaysUseNoneOverZero": false,
   "stylusSupremacy.alwaysUseZeroWithoutUnit": true,
   "stylusSupremacy.reduceMarginAndPaddingValues": false,
-  "volar.formatting.printWidth": 160,
-  "volar.icon.splitEditors": false,
-  "volar.completion.preferredAttrNameCase": "kebab",
-  "volar.completion.preferredTagNameCase": "kebab",
   "cSpell.words": [
     "croppable",
+    "editorjs",
     "flexipanel"
   ],
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "eslint.validate": [
     "javascript",

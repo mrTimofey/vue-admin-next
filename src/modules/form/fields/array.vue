@@ -1,17 +1,15 @@
 <template lang="pug">
-mixin addButton(condition)
+.form-field-array
+	.form-field-array-label
+		slot(name="label")
 	button.btn.btn-sm.btn-primary.my-1.form-field-array-add-button(
-		v-if=`!length && valueLength < max && ${condition}`
+		v-if="!length && valueLength < max && ['both', 'top'].includes(addButtonPosition)"
 		type="button"
 		:disabled="disabled"
 		@click.prevent="addItem()"
 	)
 		i.fas.fa-plus
 		!=' {{ addButtonLabel }}'
-.form-field-array
-	.form-field-array-label
-		slot(name="label")
-	+addButton('["both", "top"].includes(addButtonPosition)')
 	draggable-group.form-field-array-items(
 		v-if="keys && valueLength > 0"
 		item-key="key"
@@ -52,7 +50,14 @@ mixin addButton(condition)
 						:disabled="disabled"
 					)
 						i.fas.fa-trash
-	+addButton('["both", "bottom"].includes(addButtonPosition)')
+	button.btn.btn-sm.btn-primary.my-1.form-field-array-add-button(
+		v-if="!length && valueLength < max && ['both', 'bottom'].includes(addButtonPosition)"
+		type="button"
+		:disabled="disabled"
+		@click.prevent="addItem()"
+	)
+		i.fas.fa-plus
+		!=' {{ addButtonLabel }}'
 	.text-danger(v-if="errors && errors.length")
 		div(v-for="err in errors")
 			small {{ err }}

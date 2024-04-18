@@ -1,75 +1,37 @@
-import { defineConfig } from 'vite';
+import type { UserConfigExport } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import { createHtmlPlugin } from 'vite-plugin-html';
-import dts from 'vite-plugin-dts';
-import { resolve } from 'path';
-import { unlinkSync } from 'fs';
 import { dependencies } from './package.json';
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command }) => ({
-	plugins: [
-		vue(),
-		createHtmlPlugin(),
-		...(command === 'build'
-			? [
-					dts({
-						beforeWriteFile(path, content) {
-							const filePath = path.replace('/dist/src/', '/dist/');
-							if (path.endsWith('/dist/src/main.d.ts')) {
-								return {
-									content: content.replace("export { default as __dontUseThisThankYou__ } from './__import-all';", ''),
-									filePath,
-								};
-							}
-							return { filePath };
-						},
-						afterBuild() {
-							unlinkSync(resolve(__dirname, 'dist/__import-all.d.ts'));
-						},
-					}),
-					{
-						name: 'flexipanel:remove-import-all',
-						generateBundle(options, bundle) {
-							delete bundle['__import-all.js'];
-							const main = bundle['main.js'];
-							if (main.type !== 'chunk') {
-								return;
-							}
-							main.code = main.code.replace('export { default as __dontUseThisThankYou__ } from "./__import-all.js";', '');
-						},
-					},
-			  ]
-			: []),
-	],
-	server: {
-		proxy: {
-			// eslint-disable-next-line @typescript-eslint/naming-convention
-			'/api': process.env.API_BACKEND || 'http://localhost:8000',
+export default {
+	plugins: [vue()],
+	build: {
+		target: 'esnext',
+		lib: {
+			entry: 'src/main.ts',
+			formats: ['es'],
 		},
-	},
-	...(command === 'build' && {
-		build: {
-			lib: {
-				entry: resolve(__dirname, 'src/main.ts'),
-				formats: ['es'],
-			},
-			rollupOptions: {
-				external: Object.keys(dependencies),
+		rollupOptions: {
+			external: Object.keys(dependencies),
+			output: {
+				preserveModulesRoot: 'src',
 				preserveModules: true,
-				output: {
-					preserveModulesRoot: 'src',
-					entryFileNames(chunk) {
-						if (chunk.facadeModuleId?.endsWith('.vue')) {
-							return `${chunk.name}.vue.js`;
-						}
-						if (chunk.facadeModuleId?.includes('.vue?vue')) {
-							return `${chunk.name.split('.vue_vue')[0]}.vue.${chunk.facadeModuleId.split('.vue?vue')[1].split('&type=')[1].split('&')[0]}.js`;
-						}
+				// Rename emitted Vue component sources so they named `[name].vue.js`.
+				// It is a convenient way to allow applications importing them like '.../name.vue' when using bundlers.
+				// Also `.d.ts` files are generated as `[name].vue.d.ts` so we do not need to tweak them - everything just works.
+				entryFileNames(chunk) {
+					if (!chunk.name.endsWith('.vue')) {
 						return `${chunk.name}.js`;
-					},
+					}
+					// Vue plugin emits multiple chunks for each vue component: main entry and style/template/script blocks
+					// main entry is placed to its original folder, other files are going to their own separate folder
+					const vueChunkParams = (chunk.facadeModuleId ?? chunk.moduleIds[0] ?? '').split('?')[1] ?? '';
+					return vueChunkParams
+						? // TODO: merge all chunks into a single file
+						  `_vue-chunks/[hash].js`
+						: `${chunk.name}.js`;
 				},
 			},
 		},
-	}),
-}));
+	},
+} satisfies UserConfigExport;

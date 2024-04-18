@@ -28,10 +28,7 @@ interface IJsonApiItemResponse {
 }
 
 function isValidationMessageError(data: unknown): data is { source: { pointer: string }; title: string } {
-	if (typeof data !== 'object') {
-		return false;
-	}
-	if (!data) {
+	if (typeof data !== 'object' || !data) {
 		return false;
 	}
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -32,7 +32,10 @@ export interface IHttpResponse<T = unknown> {
  * HTTP error containing request object and response object if server has answered.
  */
 export class HttpRequestError<T> extends Error {
-	constructor(public req: IHttpRequest, public res: IHttpResponse<T> | null) {
+	constructor(
+		public req: IHttpRequest,
+		public res: IHttpResponse<T> | null,
+	) {
 		super('HTTP request error');
 	}
 }

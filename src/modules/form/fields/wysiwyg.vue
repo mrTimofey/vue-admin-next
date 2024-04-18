@@ -53,7 +53,7 @@ export default defineComponent({
 			const quill = new Quill(editorEl.value, { placeholder: props.placeholder, ...props.config });
 			quill.on('text-change', () => {
 				clearTimeout(updateTimeout);
-				updateTimeout = setTimeout(() => {
+				updateTimeout = window.setTimeout(() => {
 					if (!editorEl.value) {
 						return;
 					}

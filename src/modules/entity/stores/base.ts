@@ -25,7 +25,10 @@ export interface IApiOptions {
 export default abstract class EntityBaseStore<T extends object> extends ReactiveStore<T> {
 	protected entity: IRegisteredEntity | null = null;
 
-	constructor(protected ioc = inject(Container), protected abilityGuard = inject(EntityAbilityGuard)) {
+	constructor(
+		protected ioc = inject(Container),
+		protected abilityGuard = inject(EntityAbilityGuard),
+	) {
 		super();
 	}
 

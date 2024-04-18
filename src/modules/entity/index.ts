@@ -151,7 +151,7 @@ function fillFields(fields: IField[]) {
 const fields: { [name: string]: Component } = {};
 Object.entries(import.meta.glob('./fields/*.vue')).forEach(([path, importFn]) => {
 	// remove './fields' and '.vue' parts
-	fields[path.slice(9, -4)] = defineAsyncComponent(importFn);
+	fields[path.slice(9, -4)] = defineAsyncComponent(importFn as AsyncComponentLoader);
 });
 
 export default class EntityManager {

@@ -1,10 +1,10 @@
-import type { Component } from 'vue';
+import type { AsyncComponentLoader, Component } from 'vue';
 import { defineAsyncComponent } from 'vue';
 
 const fields: { [name: string]: Component } = {};
 Object.entries(import.meta.glob('./*.vue')).forEach(([path, importFn]) => {
 	// remove './' and '.vue' parts
-	fields[path.slice(2, -4)] = defineAsyncComponent(importFn);
+	fields[path.slice(2, -4)] = defineAsyncComponent(importFn as AsyncComponentLoader);
 });
 
 export type Resolver = (name: string) => Component | null;

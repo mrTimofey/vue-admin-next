@@ -2,7 +2,6 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-	APP_ROUTES_BASE?: string;
 	LOCAL_STORAGE_KEY_PREFIX?: string;
 
 	AUTH_AUTHENTICATE_ENDPOINT?: string;

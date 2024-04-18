@@ -29,6 +29,7 @@ module.exports = {
 
 		'import/no-unresolved': 0,
 		'import/no-extraneous-dependencies': 0,
+		'import/no-duplicates': 2,
 		'import/extensions': 0,
 		'import/no-anonymous-default-export': [
 			2,
@@ -53,7 +54,6 @@ module.exports = {
 		'@typescript-eslint/no-shadow': 2,
 		'@typescript-eslint/array-type': [2, { default: 'array' }],
 		'@typescript-eslint/indent': 0,
-		'@typescript-eslint/no-duplicate-imports': 2,
 		'@typescript-eslint/consistent-type-imports': 2,
 		'@typescript-eslint/member-delimiter-style': [
 			2,

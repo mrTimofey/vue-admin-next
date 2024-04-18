@@ -19,7 +19,7 @@ export default class Translator extends ReactiveStore<IState> {
 	getInitialState(): IState {
 		return {
 			fallbackLang: 'en',
-			lang: 'en',
+			lang: typeof window !== 'undefined' && window.document.documentElement.lang ? window.document.documentElement.lang : 'en',
 			langs: {},
 		};
 	}
@@ -42,9 +42,6 @@ export default class Translator extends ReactiveStore<IState> {
 
 	set lang(key: string) {
 		this.state.lang = key;
-		if (typeof window !== 'undefined') {
-			window.document.documentElement.lang = this.state.lang;
-		}
 	}
 
 	get lang(): string {

@@ -84,7 +84,7 @@ import EntityManager from '.';
 import type { ListItem } from './stores/list';
 import EntityListStore from './stores/list';
 import { get, create, debounce, useTranslator, useOptionalSyncProp } from '../vue-composition-utils';
-import PageNav from './pagination.vue';
+import PageNav from '../pagination/page-nav.vue';
 import FieldSelect from '../form/fields/select.vue';
 import ModalDialog from '../modal/dialogs';
 import NotificationManager from '../notification';
